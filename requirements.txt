@@ -1,0 +1,4 @@
+aiohttp
+requests
+owlready2
+python-arango
