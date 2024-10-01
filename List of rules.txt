@@ -1,0 +1,118 @@
+# Correct list of rules
+
+Name: AuthenticationMechanism1
+Resource(?a) ^ AuthenticationMethod(?sm) ^ isProtectedBy(?a, ?sm) ^ CAPEC-AuthenticationMechanism(?t) -> isAffectedBy(?a, ?t) CAPEC-AuthenticationMechanism(?t)
+
+Name: AuthenticationMechanism2
+Resource(?a) ^ TrustBoundary(?tb) ^ DataFlow(?d) ^ hasDestination(?d, ?a) ^ CAPEC-AuthenticationMechanism(?t) ^ crosses(?d, ?tb) -> Resource(?a) ^ isAffectedBy(?a, ?t) ^ CAPEC-AuthenticationMechanism(?t)
+
+Name: ClientServer1
+Software(?s) ^ hasSource(?a, ?s) ^ CAPEC-ClientServerInteraction(?t) ^ Software(?s2) ^ hasDestination(?a, ?s2) ^ DataFlow(?a) -> isAffectedBy(?a, ?t) ^ CAPEC-ClientServerInteraction(?t) ^ DataFlow(?a)
+
+Name: CommunicationChannel
+CAPEC-CommunicationChannel(?t) ^ DataFlow(?a) -> isAffectedBy(?a, ?t) ^ CAPEC-CommunicationChannel(?t) ^ DataFlow(?a)
+
+Name: CommunicationChannel1
+Network(?a) ^ CAPEC-CommunicationChannel(?t) -> isAffectedBy(?a, ?t) ^ Network(?a) ^ CAPEC-CommunicationChannel(?t)
+
+Name: Crypto1
+Resource(?a) ^ CAPEC-Crypto(?t) ^ CryptographicConcept(?sm) ^ isProtectedBy(?a, ?sm) -> Resource(?a) ^ CAPEC-Crypto(?t) ^ isAffectedBy(?a, ?t)
+
+Name: Crypto2
+Resource(?a) ^ CAPEC-Crypto(?t) ^ EncryptionAlgorithm(?sm) ^ isProtectedBy(?a, ?sm) -> Resource(?a) ^ CAPEC-Crypto(?t) ^ isAffectedBy(?a, ?t)
+
+Name: Crypto3
+CAPEC-Crypto(?t) ^ CryptographicConcept(?sm) ^ isProtectedBy(?a, ?sm) ^ DataFlow(?a) -> CAPEC-Crypto(?t) ^ isAffectedBy(?a, ?t) ^ DataFlow(?a)
+
+Name: Crypto4
+CAPEC-Crypto(?t) ^ EncryptionAlgorithm(?sm) ^ isProtectedBy(?a, ?sm) ^ DataFlow(?a) -> CAPEC-Crypto(?t) ^ isAffectedBy(?a, ?t) ^ DataFlow(?a)
+
+Name: DenialOfService1
+Resource(?a) ^ DenialOfServiceCategory(?st) ^ isAffectedBy(?a, ?t) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> Resource(?a) ^ DenialOfServiceCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: DenialOfService2
+DenialOfServiceCategory(?st) ^ isAffectedBy(?a, ?t) ^ ExternalService(?a) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> DenialOfServiceCategory(?st) ^ ExternalService(?a) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: DenialOfService3
+DenialOfServiceCategory(?st) ^ isAffectedBy(?a, ?t) ^ CAPEC(?t) ^ DataFlow(?a) ^ isLabelledWithSTRIDE(?t, ?st) -> DenialOfServiceCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st) ^ DataFlow(?a)
+
+Name: ElevationOfPrivilege1
+Resource(?a) ^ isAffectedBy(?a, ?t) ^ ElevationOfPrivilegeCategory(?st) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> Resource(?a) ^ ElevationOfPrivilegeCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: ElevationOfPrivilege2
+isAffectedBy(?a, ?t) ^ ExternalService(?a) ^ ElevationOfPrivilegeCategory(?st) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> ExternalService(?a) ^ ElevationOfPrivilegeCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: ElevationOfPrivilege3
+isAffectedBy(?a, ?t) ^ ElevationOfPrivilegeCategory(?st) ^ CAPEC(?t) ^ DataFlow(?a) ^ isLabelledWithSTRIDE(?t, ?st) -> ElevationOfPrivilegeCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st) ^ DataFlow(?a)
+
+Name: Hardware
+Device(?a) ^ CAPEC-Hardware(?t) -> Device(?a) ^ isAffectedBy(?a, ?t) ^ CAPEC-Hardware(?t)
+
+Name: HardwareSupply1
+HardwareSupply(?ex) ^ CAPEC-SupplyChain(?t) ^ ICTEntity(?a) ^ dependsOn(?a, ?ex) -> HardwareSupply(?ex) ^ CAPEC-SupplyChain(?t) ^ isAffectedBy(?ex, ?t)
+
+Name: HardwareSupply2
+HardwareSupply(?ex) ^ CAPEC-SupplyChain(?t) ^ supply(?a, ?ex) ^ ICTEntity(?a) -> HardwareSupply(?ex) ^ CAPEC-SupplyChain(?t) ^ isAffectedBy(?ex, ?t)
+
+Name: InformationDisclosure1
+Resource(?a) ^ isAffectedBy(?a, ?t) ^ InformationDisclosureCategory(?st) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> Resource(?a) ^ InformationDisclosureCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: InformationDisclosure2
+isAffectedBy(?a, ?t) ^ ExternalService(?a) ^ InformationDisclosureCategory(?st) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> ExternalService(?a) ^ InformationDisclosureCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: InformationDisclosure3
+isAffectedBy(?a, ?t) ^ InformationDisclosureCategory(?st) ^ CAPEC(?t) ^ DataFlow(?a) ^ isLabelledWithSTRIDE(?t, ?st) -> InformationDisclosureCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st) ^ DataFlow(?a)
+
+Name: InputInterfaceHW
+CAPEC-HardwareInput(?t) ^ Device(?a) ^ DataFlow(?d) ^ hasDestination(?d, ?a) -> CAPEC-HardwareInput(?t) ^ Device(?a) ^ isAffectedBy(?a, ?t) 
+
+Name: InputInterfaceSW
+Software(?a) ^ hasDestination(?d, ?a) ^ DataFlow(?d) ^ CAPEC-SoftwareInput(?t) -> Software(?a) ^ CAPEC-SoftwareInput(?t) ^ isAffectedBy(?a, ?t)
+
+Name: InputInterfaceSW2
+OperatingSystem(?a) ^ hasDestination(?d, ?a) ^ DataFlow(?d) ^ CAPEC-SoftwareInput(?t) -> OperatingSystem(?a) ^ CAPEC-SoftwareInput(?t) ^ isAffectedBy(?a, ?t)
+
+Name: InputInterfaceSW3
+Firmware(?a) ^ hasDestination(?d, ?a) ^ DataFlow(?d) ^ CAPEC-SoftwareInput(?t) -> Firmware(?a) ^ CAPEC-SoftwareInput(?t) ^ isAffectedBy(?a, ?t)
+
+Name: NetworkCommunication
+CAPEC-NetworkCommunication(?t) ^ Network(?a) -> isAffectedBy(?a, ?t) ^ CAPEC-NetworkCommunication(?t) ^ Network(?a)
+
+Name: PrivilegeOrPermissionAbuse1
+Resource(?r) ^ CAPEC-PrivilegeOrPermissionAbuse(?t) ^ TrustBoundary(?tb) ^ hasDestination(?d, ?r) ^ DataFlow(?d) ^ crosses(?d, ?tb) -> Resource(?r) ^ isAffectedBy(?r, ?t) ^ CAPEC-PrivilegeOrPermissionAbuse(?t)
+
+Name: Repudiation1
+Resource(?a) ^ isAffectedBy(?a, ?t) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) ^ RepudiationCategory(?st) -> Resource(?a) ^ isLabelledWithSTRIDE(?a, ?st) ^ RepudiationCategory(?st)
+
+Name: Repudiation2
+isAffectedBy(?a, ?t) ^ ExternalService(?a) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) ^ RepudiationCategory(?st) -> ExternalService(?a) ^ isLabelledWithSTRIDE(?a, ?st) ^ RepudiationCategory(?st)
+
+Name: Repudiation3
+isAffectedBy(?a, ?t) ^ CAPEC(?t) ^ DataFlow(?a) ^ isLabelledWithSTRIDE(?t, ?st) ^ RepudiationCategory(?st) -> isLabelledWithSTRIDE(?a, ?st) ^ DataFlow(?a) ^ RepudiationCategory(?st)
+
+Name: Software
+Software(?a) ^ CAPEC-Software(?t) -> Software(?a) ^ isAffectedBy(?a, ?t) ^ CAPEC-Software(?t)
+
+Name: Spoofing1
+Resource(?a) ^ SpoofingCategory(?st) ^ isAffectedBy(?a, ?t) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> Resource(?a) ^ SpoofingCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: Spoofing2
+SpoofingCategory(?st) ^ isAffectedBy(?a, ?t) ^ ExternalService(?a) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> SpoofingCategory(?st) ^ ExternalService(?a) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: Spoofing3
+SpoofingCategory(?st) ^ isAffectedBy(?a, ?t) ^ CAPEC(?t) ^ DataFlow(?a) ^ isLabelledWithSTRIDE(?t, ?st) -> SpoofingCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st) ^ DataFlow(?a)
+
+Name: SupplyChain1
+CAPEC-SupplyChain(?t) ^ ExternalService(?ex) ^ ICTEntity(?a) ^ dependsOn(?a, ?ex) -> CAPEC-SupplyChain(?t) ^ isAffectedBy(?a, ?t) ^ ExternalService(?ex)
+
+Name: SupplyChain2
+CAPEC-SupplyChain(?t) ^ ExternalService(?ex) ^ supply(?a, ?ex) ^ ICTEntity(?a) -> CAPEC-SupplyChain(?t) ^ isAffectedBy(?a, ?t) ^ ExternalService(?ex)
+
+Name: Tampering1
+Resource(?a) ^ isAffectedBy(?a, ?t) ^ TamperingCategory(?st) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> Resource(?a) ^ TamperingCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: Tampering2
+isAffectedBy(?a, ?t) ^ ExternalService(?a) ^ TamperingCategory(?st) ^ CAPEC(?t) ^ isLabelledWithSTRIDE(?t, ?st) -> ExternalService(?a) ^ TamperingCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st)
+
+Name: Tampering3
+isAffectedBy(?a, ?t) ^ TamperingCategory(?st) ^ CAPEC(?t) ^ DataFlow(?a) ^ isLabelledWithSTRIDE(?t, ?st) -> TamperingCategory(?st) ^ isLabelledWithSTRIDE(?a, ?st) ^ DataFlow(?a)
