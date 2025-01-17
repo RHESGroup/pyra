@@ -16,10 +16,10 @@
      xmlns:ontologiaBase_v11="http://www.semanticweb.org/christian/ontologies/2023/06/ontologiaBase_v11#"
      xmlns:SecurityLiterature="http://www.ida.liu.se/~iislab/projects/secont/SecurityLiterature.owl#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged">
-        <owl:imports rdf:resource="http://www.ida.liu.se/~iislab/projects/secont/SecurityLiterature.owl"/>
         <dc:creator xml:lang="ida.liu.se">Almut Herzog, almhe</dc:creator>
         <dc:publisher>Dept. of Computer and Information Science, Linköpings universitet, Sweden</dc:publisher>
         <rdfs:comment>An ontology that describes security technologies as a taxonomy and as countermeasures to protection goals. Typical starting points for browsing should be the classes Asset, Countermeasure, Threat.</rdfs:comment>
+        <rdfs:seeAlso>https://www.ida.liu.se/divisions/adit/security/projects/secont/SecurityLiterature.owl to view the literature(direct import)</rdfs:seeAlso>
         <owl:versionInfo>$Id: AHz-06.7-2.5.owl,v 1.6 2006/05/30 10:51:32 almhe Exp almhe $</owl:versionInfo>
     </owl:Ontology>
     
@@ -342,6 +342,15 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
         <rdfs:domain rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#HasAsset"/>
         <rdfs:range rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Asset"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#hasCAPEC -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#hasCAPEC">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Vulnerability"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
     </owl:ObjectProperty>
     
 
@@ -842,6 +851,14 @@
 
     <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#capecID">
         <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#consequence -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#consequence">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     </owl:DatatypeProperty>
     
 
@@ -11434,6 +11451,17 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
     
 
 
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-124 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-124">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Hardware"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-125 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-125">
@@ -11448,14 +11476,36 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
     
 
 
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-129 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-129">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-130 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-130">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-CommunicationChannel"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
         <likelihood>Medium</likelihood>
         <severity>Medium</severity>
         <rdfs:comment>An adversary causes the target to allocate excessive resources to servicing the attackers&apos; request, thereby reducing the resources available for legitimate services and degrading or denying services. Usually, this attack focuses on memory allocation, but any finite resource on the target could be the attacked, including bandwidth, processing cycles, or other resources. This attack does not attempt to force this allocation through a large number of requests (that would be Resource Depletion through Flooding) but instead uses one or a small number of requests that are carefully formatted to force the target to allocate excessive resources to service this request(s). Often this attack takes advantage of a bug in the target to cause the target to allocate resources vastly beyond what would be needed for a normal request.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-131 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-131">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-SoftwareInput"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
     </owl:NamedIndividual>
     
 
@@ -11557,7 +11607,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
     <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-165 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-165">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
         <likelihood>High*</likelihood>
         <severity>Medium</severity>
         <rdfs:comment>An attacker modifies file contents or attributes (such as extensions or names) of files in a manner to cause incorrect processing by an application. Attackers use this class of attacks to cause applications to enter unstable states, overwrite or expose sensitive information, and even execute arbitrary code with the application&apos;s privileges. This class of attacks differs from attacks on configuration information (even if file-based) in that file manipulation causes the file processing to result in non-standard behaviors, such as buffer overflows or use of the incorrect interpreter. Configuration attacks rely on the application interpreting files correctly in order to insert harmful configuration information. Likewise, resource location attacks rely on controlling an application&apos;s ability to locate files, whereas File Manipulation attacks do not require the application to look in a non-default location, although the two classes of attacks are often combined.</rdfs:comment>
@@ -11598,7 +11650,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
     <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-175 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-175">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
         <likelihood>Medium</likelihood>
         <severity>Very High</severity>
         <rdfs:comment>An adversary exploits a weakness on the target to force arbitrary code to be retrieved locally or from a remote location and executed. This differs from code injection in that code injection involves the direct inclusion of code while code inclusion involves the addition or replacement of a reference to a code file, which is subsequently loaded by the target and used as part of the code of some application.</rdfs:comment>
@@ -11609,7 +11663,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
     <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-176 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-176">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-SupplyChain"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
         <likelihood>High*</likelihood>
         <severity>Medium</severity>
         <rdfs:comment>An attacker manipulates files or settings external to a target application which affect the behavior of that application. For example, many applications use external configuration files and libraries - modification of these entities or otherwise affecting the application&apos;s ability to use them would constitute a configuration/environment manipulation attack.</rdfs:comment>
@@ -11812,6 +11868,27 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
     
 
 
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-25 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-25">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-26 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-26">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Hardware"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-272 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-272">
@@ -11904,9 +11981,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
     
 
 
-    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-458 -->
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-548 -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-458">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-548">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-PrivilegeOrPermissionAbuse"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
@@ -11923,7 +12000,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-549">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
-        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-SoftwareInput"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
         <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#ElevationOfPrivilege"/>
         <likelihood>Medium</likelihood>
@@ -11960,6 +12037,16 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <severity>High</severity>
         <rdfs:comment></rdfs:comment>
         <rdfs:comment>Use of known Domain Credentials</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-589 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-589">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-NetworkCommunication"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
     </owl:NamedIndividual>
     
 
@@ -12013,7 +12100,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
     <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-690 -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-690">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-SoftwareSupply"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
         <likelihood>Medium</likelihood>
         <severity>High</severity>
         <rdfs:comment></rdfs:comment>
@@ -12025,8 +12114,8 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-74">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
-        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-HardwareInput"/>
-        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-SoftwareInput"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Hardware"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
         <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Tampering"/>
         <likelihood>Medium</likelihood>
