@@ -12051,13 +12051,13 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
     
 
 
-    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-589 -->
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-586 -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-589">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-586">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-NetworkCommunication"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
-        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#ElevationOfPrivilege"/>
     </owl:NamedIndividual>
     
 
