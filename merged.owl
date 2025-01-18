@@ -3146,7 +3146,6 @@ BEWARE: The inferred individuals are not (always) correct in Protege 3.1.1/Pelle
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Availability"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <dc:description>An attack on a computer system which results in the service being offered [...] being severely degraded. (ODotI)</dc:description>
     </owl:Class>
     
 
@@ -11458,6 +11457,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Hardware"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Tampering"/>
     </owl:NamedIndividual>
     
 
@@ -11468,6 +11468,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-CommunicationChannel"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService"/>
         <likelihood>High</likelihood>
         <severity>Medium</severity>
         <rdfs:comment>An adversary consumes the resources of a target by rapidly engaging in a large number of interactions with the target. This type of attack generally exposes a weakness in rate limiting or flow. When successful this attack prevents legitimate users from accessing the service and can cause the target to crash. This attack differs from resource depletion through leaks or allocations in that the latter attacks do not rely on the volume of requests made to the target but instead focus on manipulation of the target&apos;s operations. The key factor in a flooding attack is the number of requests the adversary can make in a given period of time. The greater this number, the more likely an attack is to succeed against a given target.</rdfs:comment>
@@ -11482,6 +11483,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#InformationDisclosure"/>
     </owl:NamedIndividual>
     
 
@@ -11493,6 +11495,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-CommunicationChannel"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService"/>
         <likelihood>Medium</likelihood>
         <severity>Medium</severity>
         <rdfs:comment>An adversary causes the target to allocate excessive resources to servicing the attackers&apos; request, thereby reducing the resources available for legitimate services and degrading or denying services. Usually, this attack focuses on memory allocation, but any finite resource on the target could be the attacked, including bandwidth, processing cycles, or other resources. This attack does not attempt to force this allocation through a large number of requests (that would be Resource Depletion through Flooding) but instead uses one or a small number of requests that are carefully formatted to force the target to allocate excessive resources to service this request(s). Often this attack takes advantage of a bug in the target to cause the target to allocate resources vastly beyond what would be needed for a normal request.</rdfs:comment>
@@ -11506,6 +11509,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-SoftwareInput"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService"/>
     </owl:NamedIndividual>
     
 
@@ -11610,6 +11614,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Tampering"/>
         <likelihood>High*</likelihood>
         <severity>Medium</severity>
         <rdfs:comment>An attacker modifies file contents or attributes (such as extensions or names) of files in a manner to cause incorrect processing by an application. Attackers use this class of attacks to cause applications to enter unstable states, overwrite or expose sensitive information, and even execute arbitrary code with the application&apos;s privileges. This class of attacks differs from attacks on configuration information (even if file-based) in that file manipulation causes the file processing to result in non-standard behaviors, such as buffer overflows or use of the incorrect interpreter. Configuration attacks rely on the application interpreting files correctly in order to insert harmful configuration information. Likewise, resource location attacks rely on controlling an application&apos;s ability to locate files, whereas File Manipulation attacks do not require the application to look in a non-default location, although the two classes of attacks are often combined.</rdfs:comment>
@@ -11653,6 +11658,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#ElevationOfPrivilege"/>
         <likelihood>Medium</likelihood>
         <severity>Very High</severity>
         <rdfs:comment>An adversary exploits a weakness on the target to force arbitrary code to be retrieved locally or from a remote location and executed. This differs from code injection in that code injection involves the direct inclusion of code while code inclusion involves the addition or replacement of a reference to a code file, which is subsequently loaded by the target and used as part of the code of some application.</rdfs:comment>
@@ -11666,6 +11672,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-SupplyChain"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Tampering"/>
         <likelihood>High*</likelihood>
         <severity>Medium</severity>
         <rdfs:comment>An attacker manipulates files or settings external to a target application which affect the behavior of that application. For example, many applications use external configuration files and libraries - modification of these entities or otherwise affecting the application&apos;s ability to use them would constitute a configuration/environment manipulation attack.</rdfs:comment>
@@ -11800,6 +11807,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-ClientServerInteraction"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService"/>
         <likelihood>High*</likelihood>
         <severity>High*</severity>
         <rdfs:comment>An adversary attempts to deny legitimate users access to a resource by continually engaging a specific resource in an attempt to keep the resource tied up as long as possible. The adversary&apos;s primary goal is not to crash or flood the target, which would alert defenders; rather it is to repeatedly perform actions or abuse algorithmic flaws such that a given resource is tied up and not available to a legitimate user. By carefully crafting a requests that keep the resource engaged through what is seemingly benign requests, legitimate users are limited or completely denied access to the resource.</rdfs:comment>
@@ -11874,6 +11882,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService"/>
     </owl:NamedIndividual>
     
 
@@ -11885,6 +11894,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Hardware"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Tampering"/>
     </owl:NamedIndividual>
     
 
@@ -12047,6 +12057,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-NetworkCommunication"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService"/>
     </owl:NamedIndividual>
     
 
@@ -12074,6 +12085,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Hardware"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-Software"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService"/>
         <likelihood>High*</likelihood>
         <severity>High*</severity>
         <rdfs:comment>An attacker obstructs the interactions between system components. By interrupting or disabling these interactions, an adversary can often force the system into a degraded state or cause the system to stop working as intended. This can cause the system components to be unavailable until the obstruction mitigated.</rdfs:comment>
@@ -12103,6 +12115,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#CAPEC-SoftwareSupply"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Threat"/>
+        <isLabelledWithSTRIDE rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Spoofing"/>
         <likelihood>Medium</likelihood>
         <severity>High</severity>
         <rdfs:comment></rdfs:comment>
@@ -12528,6 +12541,15 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Deflection">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DefenseStrategy"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfServiceCategory"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#STRIDE"/>
     </owl:NamedIndividual>
     
 
@@ -13154,6 +13176,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</dc
         <rdfs:isDefinedBy rdf:resource="http://purl.org/dc/elements/1.1/"/>
         <rdfs:label xml:lang="en">Type</rdfs:label>
         <skos:note xml:lang="en">A [second property](/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/type) with the same name as this property has been declared in the [dcterms: namespace](http://purl.org/dc/terms/).  See the Introduction to the document [DCMI Metadata Terms](/specifications/dublin-core/dcmi-terms/) for an explanation.</skos:note>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#DenialOfService">
+        <dc:description>An attack on a computer system which results in the service being offered [...] being severely degraded. (ODotI)</dc:description>
     </rdf:Description>
     
 
