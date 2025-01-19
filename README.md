@@ -67,3 +67,19 @@ This feature is not complete. The file `report.py` contains various functions, t
 Here's a couple of things that must be done:
  - set the `owlready2.JAVA_EXE` to a valid path of a JRE in your system
  - set the path of the input ontology (in this case, it should be the one populated by PyRA)
+
+
+ ## Considerations
+ - On the CWE website, some CWEs have a "discouraged" label in the "Mapping" section. This is usually because the concept is somewhat abstract and may correspond to multiple CAPECs. Indeed, in the report, the longest strings of CAPECs tend to align with these CWEs. However we decided to write them anyway.
+
+ - the tool may erroneously report some risks as mitigated. For example, in the case of "firewall" it may not fully guarantee the protection of a security property while the tool would mark the part referring to that vulnerability as fully mitigated.
+
+ - addition to the "meta" abstraction capec in the ontology:
+   capec-25: software,
+   capec-26: hardware and software,
+   capec-74: moved from software-input and hardware-input to software and hardware,
+   capec-124: hardware and software,
+   capec-129: software,
+   capec-131: software-input,
+   capec-549: moved from software-input to software,
+   capec-589: network-communication
