@@ -5,26 +5,28 @@ import pandas as pd
 from owlready2 import *
 from matplotlib.lines import Line2D
 import matplotlib.pyplot as plt
+import math
 
 def main():
-    owlready2.JAVA_EXE = "/Users/myuser/PoliTO/Protege-5.6.1/Protégé.app/Contents/jre/bin/java"
+    owlready2.JAVA_EXE = "C:\\Program Files\\Java\\jdk1.8.0_241\\bin\\java"
 
     CWD = os.getcwd()
 
     # Load your ontology
-    onto = get_ontology(CWD + "/popolatav11.owl").load()
+    onto = get_ontology(CWD + "/popolata_v11.owl").load()
 
     # Sync reasoner
-    sync_reasoner_pellet(infer_property_values = True)
+    sync_reasoner_hermit(infer_property_values = True)
 
-    # report_resources(onto)
-    # va_per_resource_detailed_report(onto)
-    # risk_assessment_overview(onto)
-    # threat_model_report(onto) 
-    # risk_assessment_detailed_report(onto)
+    report_resources(onto)
+    va_per_resource_detailed_report(onto)
+    risk_assessment_overview(onto)
+    threat_model_report(onto) 
+    risk_assessment_detailed_report_from_threat_modelling(onto)
+    risk_assessment_detailed_report_from_bron(onto)
 
-    # risk_assessment_overview_bar_chart(onto)
-    # vulnerability_assessment_overview_bar_chart(onto)
+    risk_assessment_overview_bar_chart(onto)
+    vulnerability_assessment_overview_bar_chart(onto)
     va_detailed_report(onto)
 
 # Set highlighting rules
@@ -292,7 +294,7 @@ def draw_pie_charts(report):
 
 def threats_report(onto):
     # Assuming you have a class called 'Resource' and a data property called 'CPE'
-    resource_class = onto.Resource
+    resource_class = onto.Asset
     resources = set(resource_class.instances()) # using set because, somehow, I get some resources twice in the array
 
     # Sort resources by name
@@ -573,13 +575,13 @@ def threat_model_report(onto):
 def va_summary_report(onto):
     # We want to generate a report table with the following columns: Total Resources, Total CVEs, Total CWEs, Total ATT&CKs
     analyzed_resources = 0
-    for r in onto.Resource.instances():
+    for r in onto.Asset.instances():
         has_cpe = hasattr(r, 'hasVulnerability') and len(r.CPE) > 0
         has_info = hasattr(r, 'vendor') and len(r.vendor) > 0 and hasattr(r, 'product') and len(r.product) > 0
         if has_cpe or has_info:
             analyzed_resources += 1
 
-    total_resources = len(onto.Resource.instances())
+    total_resources = len(onto.Asset.instances())
     cves_count = len(onto.CVE.instances())
     cwes_count = len(onto.CWE.instances())
     attacks_count = len(onto.ATTACK.instances())
@@ -605,7 +607,7 @@ def va_summary_report(onto):
 
 def va_per_resource_report(onto):
     # We want to generate a report table with the following columns: Resource, Total CVEs, Total CWEs, Total ATT&CKs
-    resources = onto.Resource.instances()
+    resources = onto.Asset.instances()
     results = []
     for resource in resources:
         # Get the name of the resource
@@ -694,7 +696,7 @@ def va_per_resource_detailed_report(onto):
     # We want to generate one report for each resource with at least one vulnerability
     # The report will have the following columns: CVE, CWEs, CAPECs, ATT&CKs
     # The report will have the top 5 (evaluated by 'CVSS' data property score) vulnerabilities for each resource, sorted by CVSS score in descending order
-    resources = onto.Resource.instances()
+    resources = onto.Asset.instances()
 
     # Sort resources by name
     resources = sorted(resources, key=lambda x: x.name)
@@ -792,7 +794,7 @@ def report_resources(onto):
     # For each resource report CPE, vendor, product, version
     # place a '-' if the resource doesn't have one of the above
     # Finally, print as Latex table with the following columns: Resource, CPE, Vendor, Product, Version
-    resources = onto.Resource.instances()
+    resources = onto.Asset.instances()
     results = []
     for resource in resources:
         # Get the name of the resource
@@ -841,7 +843,7 @@ def report_cpes(onto):
     # For each resource report CPE, vendor, product, version
     # place a '-' if the resource doesn't have one of the above
     # Finally, print as Latex table with the following columns: Resource, CPE, Vendor, Product, Version
-    resources = onto.Resource.instances()
+    resources = onto.Asset.instances()
     results = []
     for resource in resources:
         # Get the name of the resource
@@ -1183,7 +1185,7 @@ def risk_assessment_overview_bar_chart_per_resource_type(onto):
     plt.tight_layout()
     plt.show()
 
-def risk_assessment_detailed_report(onto):
+def risk_assessment_detailed_report_from_threat_modelling(onto):
     results = []
     
     for instance in onto.individuals():
@@ -1201,7 +1203,9 @@ def risk_assessment_detailed_report(onto):
         name = instance.name
 
         # Get the class of the resource
-        class_name = instance.is_a[0].name
+        class_name = instance.is_a[0].name #TODO probabilmente da modificare
+
+        secmec = instance.isProtectedBy
 
 
         if has_valid_class and hasattr(instance, "isAffectedBy"):
@@ -1231,29 +1235,75 @@ def risk_assessment_detailed_report(onto):
                 likelihood_val = likelihood_map.get(likelihood, 4)
                 severity_val = likelihood_map.get(severity, 4)
                 risk = likelihood_val * severity_val
+                mitigatedRisk = risk
+
+                modifier = 1
+                if len(secmec) > 0 and len(threat.consequence) > 0:
+                    dict_security_type = {"_Prevention": 1, "_Detection": 1, "_Recovery": 1, "_Correction": 1, "_Deflection": 1, "_Deterrence": 1}
+                    dict_asset_type = {str(c).split(".")[1]: 1 for c in instance.is_a if issubclass(c, onto.HasAsset)}
+                    weight_for_cons = 1/len(set(cons.split("::")[0] for cons in threat.consequence))
+                    dict_security_property = {}
+                    for cons in threat.consequence:
+                        prop = cons.split("::")[0]
+                        if prop == "Access Control":
+                            dict_security_property["_Authorisation"] = weight_for_cons
+                        else:
+                            dict_security_property["_" + prop] = weight_for_cons
+                    for sec_mec in secmec:
+                        secMecClass = [subc for subc in sec_mec.is_a if issubclass(subc, onto.SecurityMechanism)]
+                        for s in secMecClass:
+                            for x in s.protects:
+                                input_values = {**dict_asset_type, **dict_security_property, **dict_security_type}
+                                def replace_expression(expr, values):
+                                    def replacer(match):
+                                        key = match.group(1)
+                                        return str(values.get(key, 0))
+                                    return re.sub(r"popolata_v11\.(_\w+)", replacer, expr)
+                                converted_expression = replace_expression(str(x), input_values)
+                                print(converted_expression)
+                                result = 1 - eval(converted_expression.replace("&", "*").replace("|", "+")) #TODO eventualmente cambiare come si calcola: considerare quale proprietà è mitigata e calcolarlo per quella proprietà solo una volta?
+                                modifier = modifier * result
+                        mitigatedRisk = modifier * mitigatedRisk
+                        if onto.Firewall in secMecClass:    #TODO probabilmente da estendere ad altre classi dopo analisi
+                            mitigatedRisk = str(mitigatedRisk) + "*"
+
+                
                 qrisk = 'N/A'
 
-                if risk >= 20:
+                if mitigatedRisk >= 20:
                     qrisk = 'Very High'
-                elif risk >= 15 and risk <= 19:
+                elif mitigatedRisk >= 15 and mitigatedRisk <= 19:
                     qrisk = 'High'
-                elif risk >= 5 and risk <= 14:
+                elif mitigatedRisk >= 5 and mitigatedRisk <= 14:
                     qrisk = 'Medium'
-                elif risk >= 3 and risk <= 4:
+                elif mitigatedRisk >= 3 and mitigatedRisk <= 4:
                     qrisk = 'Low'
                 else:
                     qrisk = 'Very Low'
 
                 # Add to results
-                results.append({
-                    'Resource': name,
-                    'Type': class_name,
-                    'Threat': threat_name,
-                    # 'Likelihood': likelihood,
-                    # 'Severity': severity,
-                    'Risk': risk,
-                    'Risk Level': qrisk
-                })
+                if risk != mitigatedRisk:
+                    results.append({
+                        'Resource': name,
+                        'Type': class_name,
+                        'Threat': threat_name,
+                        # 'Likelihood': likelihood,
+                        # 'Severity': severity,
+                        'Risk': risk,
+                        'Mitigated Risk': mitigatedRisk,
+                        'Risk Level': qrisk
+                    })
+                else:
+                    results.append({
+                        'Resource': name,
+                        'Type': class_name,
+                        'Threat': threat_name,
+                        # 'Likelihood': likelihood,
+                        # 'Severity': severity,
+                        'Risk': risk,
+                        'Mitigated Risk': 'N/A',
+                        'Risk Level': qrisk
+                    })
 
     # Construct a new array to limit the number of results
     final_results = []
@@ -1261,47 +1311,139 @@ def risk_assessment_detailed_report(onto):
     # Sort by risk
     results = sorted(results, key=lambda x: x['Risk'], reverse=True)
 
-    for result in results:
-        name = result['Resource']
-        class_name = result['Type']
-
-        # If there are already 2 results for this resource, skip it
-        if len(final_results) > 0 and len([r for r in final_results if r['Resource'] == name]) >= 2:
-            continue
-
-        # If there are already 3 results for this resource type, skip it
-        if len(final_results) > 0 and len([r for r in final_results if r['Type'] == class_name]) >= 6:
-            continue
-
-        # If there are already 3 results for this threat, skip it
-        if len(final_results) > 0 and len([r for r in final_results if r['Threat'] == result['Threat']]) >= 3:
-            continue
-
-        # If qrisk is Very High and there are already 5 results for this risk level, skip it
-        if len(final_results) > 0 and result['Risk Level'] == 'Very High' and len([r for r in final_results if r['Risk Level'] == 'Very High']) >= 8:
-            continue
-
-        # If qrisk is High and there are already 3 results for this risk level, skip it
-        if len(final_results) > 0 and result['Risk Level'] == 'High' and len([r for r in final_results if r['Risk Level'] == 'High']) >= 5:
-            continue
-
-        # If qrisk is Medium and there are already 6 results for this risk level, skip it
-        if len(final_results) > 0 and result['Risk Level'] == 'Medium' and len([r for r in final_results if r['Risk Level'] == 'Medium']) >= 6:
-            continue
-
-        # If qrisk is Low and there are already 4 results for this risk level, skip it
-        if len(final_results) > 0 and result['Risk Level'] == 'Low' and len([r for r in final_results if r['Risk Level'] == 'Low']) >= 4:
-            continue
-
-        final_results.append(result)
+#    for result in results:
+#        name = result['Resource']
+#        class_name = result['Type']
+#
+#        # If there are already 2 results for this resource, skip it
+#        if len(final_results) > 0 and len([r for r in final_results if r['Resource'] == name]) >= 2:
+#            continue
+#
+#        # If there are already 3 results for this resource type, skip it
+#        if len(final_results) > 0 and len([r for r in final_results if r['Type'] == class_name]) >= 6:
+#            continue
+#
+#        # If there are already 3 results for this threat, skip it
+#        if len(final_results) > 0 and len([r for r in final_results if r['Threat'] == result['Threat']]) >= 3:
+#            continue
+#
+#        # If qrisk is Very High and there are already 5 results for this risk level, skip it
+#        if len(final_results) > 0 and result['Risk Level'] == 'Very High' and len([r for r in final_results if r['Risk Level'] == 'Very High']) >= 8:
+#            continue
+#
+#        # If qrisk is High and there are already 3 results for this risk level, skip it
+#        if len(final_results) > 0 and result['Risk Level'] == 'High' and len([r for r in final_results if r['Risk Level'] == 'High']) >= 5:
+#            continue
+#
+#        # If qrisk is Medium and there are already 6 results for this risk level, skip it
+#        if len(final_results) > 0 and result['Risk Level'] == 'Medium' and len([r for r in final_results if r['Risk Level'] == 'Medium']) >= 6:
+#            continue
+#
+#        # If qrisk is Low and there are already 4 results for this risk level, skip it
+#        if len(final_results) > 0 and result['Risk Level'] == 'Low' and len([r for r in final_results if r['Risk Level'] == 'Low']) >= 4:
+#            continue
+#
+#        final_results.append(result)
 
     # Write to Excel table
-    report = pd.DataFrame(final_results)
+    # report = pd.DataFrame(final_results)
+    report = pd.DataFrame(results)
 
     report = report.style.apply(highlight_row, axis=1)
 
+    new_row = pd.DataFrame({"Resource": ["* = the mitigated risk could not reflect the actual risk(see documentation)"]})#TODO da provare
+    combined_report = pd.concat([report.data, new_row], ignore_index=True)
+
+    # Salva su Excel con stile applicato (esclusa la riga aggiuntiva)
+    with pd.ExcelWriter("risk_assessment_detailed_report_from_threat_modelling.xlsx") as writer:
+        report.to_excel(writer, index=False, startrow=0)
+        # Inserisci manualmente la nota
+        combined_report.tail(1).to_excel(writer, index=False, startrow=len(combined_report), header=False)
+
     # Write to file
-    report.to_excel("risk_assessment_detailed_report.xlsx", index=False)
+    #report.to_excel("risk_assessment_detailed_report_from_threat_modelling.xlsx", index=False)
+
+
+    # # Write to pandas LateX table
+    # report = pd.DataFrame(final_results)
+    # report = report.to_latex(column_format="llllll", index=False, longtable=True, caption="Extract of the detailed Risk Assessment report.", label="tab:risk_assessment_detailed")
+
+    # # Print to standard output
+    # print(report)
+
+def risk_assessment_detailed_report_from_bron(onto):
+    # ____________________________________________
+    #| Resource | capec | score | mitigated_score |
+    
+    results = []
+    
+    for instance in onto.Risk.instances():
+
+        conv_table = {"Very Low": 1, "Low": 2, "Medium": 3, "High": 4, "Very High": 5}
+        
+        resource = instance.hasSourceAsset[0]
+        capec = instance.hasSourceCAPEC[0]
+        vuln = instance.hasSourceVuln
+        # Get the name of the resource
+        name = resource.name
+
+        # Get the class of the resource
+        class_name = resource.is_a[0].name
+
+
+        if len(instance.mitigatedCapecScore) > 0:
+            risk = math.ceil(float(instance.mitigatedCapecScore[0]))
+        else:
+            risk = conv_table.get(instance.hasSourceCAPEC[0].severity[0], 4) * conv_table.get(instance.hasSourceCAPEC[0].likelihood[0], 4)
+        qrisk = 'N/A'
+        if risk >= 20:
+            qrisk = 'Very High'
+        elif risk >= 15 and risk <= 19:
+            qrisk = 'High'
+        elif risk >= 5 and risk <= 14:
+            qrisk = 'Medium'
+        elif risk >= 3 and risk <= 4:
+            qrisk = 'Low'
+        else:
+            qrisk = 'Very Low'
+        # Add to results
+        if len(instance.mitigatedCapecScore) > 0:
+            results.append({
+                'Resource': name,
+                'Capec': capec.name,
+                'Risk': int(instance.capecScore[0]),
+                'Mitigated Risk': risk,
+                'Risk Level': qrisk
+            })
+        else:
+            results.append({
+                'Resource': name,
+                'Capec': capec.name,
+                'Risk': conv_table.get(instance.hasSourceCAPEC[0].severity[0], 4) * conv_table.get(instance.hasSourceCAPEC[0].likelihood[0], 4),
+                'Mitigated Risk': 'N/A',
+                'Risk Level': qrisk
+            })
+
+    # Sort by risk
+    results = sorted(results, key=lambda x: x['Risk'], reverse=True)
+
+    # Write to Excel table
+    report = pd.DataFrame(results)
+
+    report = report.style.apply(highlight_row, axis=1)
+
+    new_row = pd.DataFrame({"Note": ["* = the mitigated risk could not reflect the actual risk(see documentation)"]})
+    combined_report = pd.concat([report.data, new_row], ignore_index=True)
+
+    # Salva su Excel con stile applicato (esclusa la riga aggiuntiva)
+    with pd.ExcelWriter("risk_assessment_detailed_report_from_bron.xlsx") as writer:
+        report.to_excel(writer, index=False, startrow=0)
+        # Inserisci manualmente la nota
+        combined_report.tail(1).to_excel(writer, index=False, startrow=len(combined_report), header=False)
+
+
+    # Write to file
+    #report.to_excel("risk_assessment_detailed_report_from_bron.xlsx", index=False)
 
 
     # # Write to pandas LateX table
@@ -1387,7 +1529,7 @@ def vulnerability_assessment_overview_bar_chart(onto):
 def va_detailed_report(onto):
     # We want to generate a report contining the following columns: Resource, CVE, CWEs, CAPECs, ATT&CKs, Severity
     # where severity is the 'BaseSeverity' data property of the Vulnerability class
-    resources = onto.Resource.instances()
+    resources = onto.Asset.instances()
 
     # For each resource, get the vulnerabilities
     results = []

@@ -72,7 +72,7 @@ Here's a couple of things that must be done:
  ## Considerations
  - On the CWE website, some CWEs have a "discouraged" label in the "Mapping" section. This is usually because the concept is somewhat abstract and may correspond to multiple CAPECs. Indeed, in the report, the longest strings of CAPECs tend to align with these CWEs. However we decided to write them anyway.
 
- - the tool may erroneously report some risks as mitigated. For example, in the case of "firewall" it may not fully guarantee the protection of a security property while the tool would mark the part referring to that vulnerability as fully mitigated.
+ - the tool may erroneously report some risks as mitigated. For example, in the case of "firewall" it may not fully guarantee the protection of a security property while the tool would mark the part referring to that security property as fully mitigated.
 
  - addition to the "meta" abstraction capec in the ontology:
    capec-25: software,
