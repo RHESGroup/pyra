@@ -352,7 +352,13 @@ def calculate_mitigated_score(vuln, resource, capec):
         new_risk.hasSourceCAPEC.append(capec)
         new_risk.hasSourceVuln.append(vuln)
         dict_security_type = {"_Prevention": 1, "_Detection": 1, "_Recovery": 1, "_Correction": 1, "_Deflection": 1, "_Deterrence": 1}
-        dict_asset_type = {str(c).split(".")[1]: 1 for c in resource.is_a if issubclass(c, onto.HasAsset)}
+        pattern = r"\b(_Prevention|_Detection|_Recovery|_Correction|_Deflection|_Deterrence)\b"
+        dict_asset_type = {}
+        for c in resource.is_a:
+            if issubclass(c, onto.HasAsset):
+                while c != onto.HasAsset:
+                    dict_asset_type[str(c).split(".")[1]] = 1 #non è necessario dividere lo score di ogni asset perchè si presume che nelle regole "protecs..." ci sia al massimo un asset type di ogni "gerarchia"
+                    c = c.is_a[0]
         print(dict_asset_type)
         if len(capec.consequence) == 0 or resource.isProtectedBy is None:
             return
@@ -360,19 +366,30 @@ def calculate_mitigated_score(vuln, resource, capec):
         dict_security_property = {}
         for cons in capec.consequence:
             prop = cons.split("::")[0]
-            if prop == "Access Control":
+            if prop == "Access Control" or prop == "Authorization":
                 dict_security_property["_Authorisation"] = weight_for_cons
             else:
                 dict_security_property["_" + prop] = weight_for_cons
         if resource.isProtectedBy:
+            modifier = 1
+            firewall = False
             for sec_mec in resource.isProtectedBy:
                 secMecClass = [subc for subc in sec_mec.is_a if issubclass(subc, onto.SecurityMechanism)]
-                modifier = 1
                 for s in secMecClass:
-                    print(s.protects)
-                    for x in s.protects:
-                        print(str(x))
+                    for restriction in s.is_a:
+                        print(restriction)
+                        if not (isinstance(restriction, Restriction) and restriction.property.name == "protects" and restriction.type == ONLY):
+                            print(restriction)
+                            continue
+                        print(str(restriction.value))
+                        #estrarre tutti i security type da x e fare count()
+                        weight_for_sec_type = len(re.findall(pattern, str(restriction.value)))
+                        #assegnare a ogni security type con valore != 0 il risultato di count()
+                        for sec_type in dict_security_type.keys():
+                            if dict_security_type[sec_type] != 0:
+                                dict_security_type[sec_type] = 1/weight_for_sec_type
                         input_values = {**dict_asset_type, **dict_security_property, **dict_security_type}
+                        print(capec.consequence)
                         print(input_values)
                         def replace_expression(expr, values):
                             def replacer(match):
@@ -380,19 +397,23 @@ def calculate_mitigated_score(vuln, resource, capec):
                                 return str(values.get(key, 0))
                             return re.sub(r"merged\.(_\w+)", replacer, expr)
 
-                        converted_expression = replace_expression(str(x), input_values)
+                        converted_expression = replace_expression(str(restriction.value), input_values)
                         print(f"Espressione convertita: {converted_expression}")
 
                         result = 1 - eval(converted_expression.replace("&", "*").replace("|", "+"))#TODO eventualmente cambiare come si calcola: considerare quale proprietà è mitigata e calcolarlo per quella proprietà solo una volta?
                         modifier = modifier * result
                         print(f"Risultato: {result}")
-                new_risk.capecScore.append(str(conv_table.get(str(capec.likelihood[0]), 4) * conv_table.get(str(capec.severity[0]), 4)))
                 if onto.Firewall in secMecClass:    #TODO probabilmente da estendere ad altre classi dopo analisi
-                    new_risk.mitigatedCapecScore.append(str(modifier * conv_table.get(str(capec.likelihood[0]), "4") * conv_table.get(str(capec.severity[0]), "4")) + "*")
-                else:
-                    new_risk.mitigatedCapecScore.append(str(modifier * conv_table.get(str(capec.likelihood[0]), "4") * conv_table.get(str(capec.severity[0]), "4")))
-                print(f"Rischio non mitigato: {new_risk.capecScore}")
-                print(f"Rischio mitigato: {new_risk.mitigatedCapecScore}")
+                    firewall = True
+            new_risk.capecScore.append(str(conv_table.get(str(capec.likelihood[0]), 4) * conv_table.get(str(capec.severity[0]), 4)))
+            if firewall:
+                new_risk.mitigatedCapecScore.append(str(modifier * conv_table.get(str(capec.likelihood[0]), 4) * conv_table.get(str(capec.severity[0]), 4)) + "*")
+                firewall = False
+            else:
+                new_risk.mitigatedCapecScore.append(str(modifier * conv_table.get(str(capec.likelihood[0]), 4) * conv_table.get(str(capec.severity[0]), 4)))
+               
+            print(f"Rischio non mitigato: {new_risk.capecScore}")
+            print(f"Rischio mitigato: {new_risk.mitigatedCapecScore}")
                 
 
 def add_attack_mitigation_to_ontology(mitigation):

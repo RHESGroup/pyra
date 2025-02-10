@@ -1844,19 +1844,18 @@ Proof-of-concept status</rdfs:comment>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
-                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Detection"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
                 <owl:allValuesFrom>
                     <owl:Class>
-                        <owl:unionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Confidentiality"/>
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Integrity"/>
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_PolicyCompliance"/>
-                        </owl:unionOf>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Detection"/>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Confidentiality"/>
+                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Integrity"/>
+                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_PolicyCompliance"/>
+                                </owl:unionOf>
+                            </owl:Class>
+                        </owl:intersectionOf>
                     </owl:Class>
                 </owl:allValuesFrom>
             </owl:Restriction>
@@ -2773,32 +2772,34 @@ BEWARE: The inferred individuals are not (always) correct in Protege 3.1.1/Pelle
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
-                <owl:someValuesFrom>
+                <owl:allValuesFrom>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_DatabaseDataFile"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
                             <owl:Class>
                                 <owl:unionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Confidentiality"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Integrity"/>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_DatabaseDataFile"/>
+                                            <owl:Class>
+                                                <owl:unionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Confidentiality"/>
+                                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Integrity"/>
+                                                </owl:unionOf>
+                                            </owl:Class>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Human"/>
+                                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_PolicyCompliance"/>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
                                 </owl:unionOf>
                             </owl:Class>
                         </owl:intersectionOf>
                     </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Human"/>
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_PolicyCompliance"/>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
+                </owl:allValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -3503,6 +3504,7 @@ but it is hard to do the reverse.</x_1.1:description>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Availability"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
                             <owl:Class>
                                 <owl:unionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Host"/>
@@ -3522,6 +3524,7 @@ but it is hard to do the reverse.</x_1.1:description>
                         <owl:intersectionOf rdf:parseType="Collection">
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_E-Mail"/>
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_PolicyCompliance"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
                         </owl:intersectionOf>
                     </owl:Class>
                 </owl:someValuesFrom>
@@ -3755,7 +3758,7 @@ Often accompanied by a more active attack.</x_1.1:description>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
-                <owl:someValuesFrom>
+                <owl:allValuesFrom>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Confidentiality"/>
@@ -3763,7 +3766,7 @@ Often accompanied by a more active attack.</x_1.1:description>
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
                         </owl:intersectionOf>
                     </owl:Class>
-                </owl:someValuesFrom>
+                </owl:allValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -3910,32 +3913,34 @@ Often accompanied by a more active attack.</x_1.1:description>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
-                <owl:someValuesFrom>
+                <owl:allValuesFrom>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_File"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
                             <owl:Class>
                                 <owl:unionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Confidentiality"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Integrity"/>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_File"/>
+                                            <owl:Class>
+                                                <owl:unionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Confidentiality"/>
+                                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Integrity"/>
+                                                </owl:unionOf>
+                                            </owl:Class>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
+                                    <owl:Class>
+                                        <owl:intersectionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Human"/>
+                                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_PolicyCompliance"/>
+                                        </owl:intersectionOf>
+                                    </owl:Class>
                                 </owl:unionOf>
                             </owl:Class>
                         </owl:intersectionOf>
                     </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Human"/>
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_PolicyCompliance"/>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
+                </owl:allValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
         <x_1.1:description>Abstract container for access control to files provided by operating systems.</x_1.1:description>
@@ -4063,6 +4068,7 @@ Often accompanied by a more active attack.</x_1.1:description>
                         <owl:intersectionOf rdf:parseType="Collection">
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_DataInTransit"/>
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_PolicyCompliance"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
                         </owl:intersectionOf>
                     </owl:Class>
                 </owl:someValuesFrom>
@@ -4074,6 +4080,7 @@ Often accompanied by a more active attack.</x_1.1:description>
                 <owl:someValuesFrom>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
                             <owl:Class>
                                 <owl:unionOf rdf:parseType="Collection">
                                     <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Availability"/>
@@ -5414,9 +5421,14 @@ A packet contains a false IP address (usually sender address), often used to tri
                 <owl:someValuesFrom>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Availability"/>
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Human"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Authentication"/>
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Human"/>
+                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Technology"/>
+                                </owl:unionOf>
+                            </owl:Class>
                         </owl:intersectionOf>
                     </owl:Class>
                 </owl:someValuesFrom>
@@ -5434,9 +5446,14 @@ A packet contains a false IP address (usually sender address), often used to tri
                 <owl:allValuesFrom>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Availability"/>
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Human"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Authentication"/>
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Human"/>
+                                    <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Technology"/>
+                                </owl:unionOf>
+                            </owl:Class>
                         </owl:intersectionOf>
                     </owl:Class>
                 </owl:allValuesFrom>
@@ -5802,20 +5819,6 @@ A version of a message digest which also includes a password. The user of a mess
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#SecurityMechanism"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
-                <owl:someValuesFrom>
-                    <owl:Class>
-                        <owl:intersectionOf rdf:parseType="Collection">
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Data"/>
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Detection"/>
-                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Integrity"/>
-                        </owl:intersectionOf>
-                    </owl:Class>
-                </owl:someValuesFrom>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#uses"/>
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#SignatureAlgorithm"/>
             </owl:Restriction>
@@ -5824,6 +5827,20 @@ A version of a message digest which also includes a password. The user of a mess
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#verifiesCredential"/>
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#MessageDigestData"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Data"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Detection"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Integrity"/>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
         <x_1.1:description>The process of generating and verifying a message digest credential.</x_1.1:description>
@@ -7976,7 +7993,7 @@ Could be used for other algorithms as well. (my)</x_1.1:description>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#protects"/>
-                <owl:someValuesFrom>
+                <owl:allValuesFrom>
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Data"/>
@@ -7984,7 +8001,7 @@ Could be used for other algorithms as well. (my)</x_1.1:description>
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Integrity"/>
                         </owl:intersectionOf>
                     </owl:Class>
-                </owl:someValuesFrom>
+                </owl:allValuesFrom>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -8511,6 +8528,7 @@ Is this really a passive attack? Even if it leaves data unmodified? (my)</x_1.1:
                     <owl:Class>
                         <owl:intersectionOf rdf:parseType="Collection">
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Confidentiality"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Data"/>
                             <rdf:Description rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Prevention"/>
                         </owl:intersectionOf>
                     </owl:Class>
@@ -11465,6 +11483,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#APP1">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Process"/>
         <CPE>cpe:2.3:a:apple:numbers:*:*:*:*:*:mac_os_x:*:*</CPE>
     </owl:NamedIndividual>
     
@@ -11474,8 +11493,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#APP2">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Software"/>
-        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Human"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Process"/>
         <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#AuthMechanism"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall1"/>
         <CPE>cpe:2.3:a:apple:safari:14.0:*:*:*:*:*:*:*</CPE>
     </owl:NamedIndividual>
     
@@ -11485,6 +11505,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#APP3">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Process"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#AuthMechanism"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall1"/>
         <CPE>cpe:2.3:a:mozilla:thunderbird:101.0:*:*:*:*:*:*:*</CPE>
     </owl:NamedIndividual>
     
@@ -11494,6 +11517,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#APP4">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Process"/>
         <CPE>cpe:2.3:a:microsoft:sql_server_management_studio:*:*:*:*:*:*:*:*</CPE>
     </owl:NamedIndividual>
     
@@ -11503,6 +11527,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#APP5">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Software"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Process"/>
         <isSuppliedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#SW_Supply_APP5"/>
         <CPE>cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*</CPE>
     </owl:NamedIndividual>
@@ -11529,6 +11554,14 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
         <goalHasRelatedGoal rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Secrecy"/>
         <x_1.1:description>A condition in which an individual&apos;s true identity is unknown.
 (www.microsoft.com/security/glossary.mspx)</x_1.1:description>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/niki/ontologies/2024/11/merged#AntiVirus1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#AntiVirus1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Anti-VirusSoftware"/>
     </owl:NamedIndividual>
     
 
@@ -20949,6 +20982,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall1">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_BastionHost"/>
         <rdf:type>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#isProtectedBy"/>
@@ -20961,6 +20995,7 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
                 <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#STRIDE"/>
             </owl:Restriction>
         </rdf:type>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall1"/>
         <CPE>cpe:2.3:o:sophos:sfos:18.0:*:*:*:*:*:*:*</CPE>
     </owl:NamedIndividual>
     
@@ -21070,10 +21105,12 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Network2">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Network"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Network"/>
         <connects rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#PC1"/>
         <connects rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#PC2"/>
         <connects rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#PC3"/>
         <connects rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Router1"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall1"/>
     </owl:NamedIndividual>
     
 
@@ -21103,6 +21140,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#OS2">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#OperatingSystem"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Process"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#AntiVirus1"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall1"/>
         <CPE>cpe:2.3:o:canonical:ubuntu_linux:22.04:*:*:*:lts:*:*:*</CPE>
     </owl:NamedIndividual>
     
@@ -21112,6 +21152,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#OS3">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#OperatingSystem"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Process"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#AntiVirus1"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall1"/>
         <CPE>cpe:2.3:o:microsoft:windows_11_22h2:*:*:*:*:*:*:x64:*</CPE>
     </owl:NamedIndividual>
     
@@ -21138,6 +21181,9 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#PC2">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#HostOnIntranet"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_HostOnIntranet"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#AntiVirus1"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall1"/>
         <product>alienware_13_r2</product>
         <vendor>dell</vendor>
     </owl:NamedIndividual>
@@ -21212,6 +21258,8 @@ where M is the message block to be encrypted and k1, k2, and k3 are DES keys</x_
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Router1">
         <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Router"/>
+        <rdf:type rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#_Router"/>
+        <isProtectedBy rdf:resource="http://www.semanticweb.org/niki/ontologies/2024/11/merged#Firewall1"/>
     </owl:NamedIndividual>
     
 

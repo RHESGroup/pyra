@@ -1240,43 +1240,63 @@ def risk_assessment_detailed_report_from_threat_modelling(onto):
                 modifier = 1
                 if len(secmec) > 0 and len(threat.consequence) > 0:
                     dict_security_type = {"_Prevention": 1, "_Detection": 1, "_Recovery": 1, "_Correction": 1, "_Deflection": 1, "_Deterrence": 1}
-                    dict_asset_type = {str(c).split(".")[1]: 1 for c in instance.is_a if issubclass(c, onto.HasAsset)}
+                    pattern = r"\b(_Prevention|_Detection|_Recovery|_Correction|_Deflection|_Deterrence)\b"
+                    dict_asset_type = {}
+                    for c in instance.is_a:
+                        if issubclass(c, onto.HasAsset):
+                            while c != onto.HasAsset:
+                                dict_asset_type[str(c).split(".")[1]] = 1 #non è necessario dividere lo score di ogni asset perchè si presume che nelle regole "protecs..." ci sia al massimo un asset type di ogni "gerarchia"
+                                c = c.is_a[0]
                     weight_for_cons = 1/len(set(cons.split("::")[0] for cons in threat.consequence))
                     dict_security_property = {}
                     for cons in threat.consequence:
                         prop = cons.split("::")[0]
-                        if prop == "Access Control":
+                        if prop == "Access Control" or prop == "Authorization":
                             dict_security_property["_Authorisation"] = weight_for_cons
                         else:
                             dict_security_property["_" + prop] = weight_for_cons
+                    firewall = False
                     for sec_mec in secmec:
                         secMecClass = [subc for subc in sec_mec.is_a if issubclass(subc, onto.SecurityMechanism)]
                         for s in secMecClass:
-                            for x in s.protects:
+                            for restriction in s.is_a:
+                                print(restriction)
+                                if not (isinstance(restriction, Restriction) and restriction.property.name == "protects" and restriction.type == ONLY):
+                                    print(restriction)
+                                    continue
+                                print(str(restriction.value))
+                                #estrarre tutti i security type da x e fare count()
+                                weight_for_sec_type = len(re.findall(pattern, str(restriction.value)))
+                                #assegnare a ogni security type con valore != 0 il risultato di count()
+                                for sec_type in dict_security_type.keys():
+                                    if dict_security_type[sec_type] != 0:
+                                        dict_security_type[sec_type] = 1/weight_for_sec_type
                                 input_values = {**dict_asset_type, **dict_security_property, **dict_security_type}
                                 def replace_expression(expr, values):
                                     def replacer(match):
                                         key = match.group(1)
                                         return str(values.get(key, 0))
                                     return re.sub(r"popolata_v11\.(_\w+)", replacer, expr)
-                                converted_expression = replace_expression(str(x), input_values)
+                                converted_expression = replace_expression(str(restriction.value), input_values)
                                 print(converted_expression)
                                 result = 1 - eval(converted_expression.replace("&", "*").replace("|", "+")) #TODO eventualmente cambiare come si calcola: considerare quale proprietà è mitigata e calcolarlo per quella proprietà solo una volta?
                                 modifier = modifier * result
-                        mitigatedRisk = modifier * mitigatedRisk
                         if onto.Firewall in secMecClass:    #TODO probabilmente da estendere ad altre classi dopo analisi
-                            mitigatedRisk = str(mitigatedRisk) + "*"
-
+                            firewall = True
+                    mitigatedRisk = modifier * mitigatedRisk
+                    if firewall:
+                        mitigatedRisk = str(mitigatedRisk) + "*"
+                        firewall = False
                 
                 qrisk = 'N/A'
-
-                if mitigatedRisk >= 20:
+                mr = float(str(mitigatedRisk).split("*")[0])
+                if mr >= 20:
                     qrisk = 'Very High'
-                elif mitigatedRisk >= 15 and mitigatedRisk <= 19:
+                elif mr >= 15 and mr <= 19:
                     qrisk = 'High'
-                elif mitigatedRisk >= 5 and mitigatedRisk <= 14:
+                elif mr >= 5 and mr <= 14:
                     qrisk = 'Medium'
-                elif mitigatedRisk >= 3 and mitigatedRisk <= 4:
+                elif mr >= 3 and mr <= 4:
                     qrisk = 'Low'
                 else:
                     qrisk = 'Very Low'
@@ -1392,7 +1412,7 @@ def risk_assessment_detailed_report_from_bron(onto):
 
 
         if len(instance.mitigatedCapecScore) > 0:
-            risk = math.ceil(float(instance.mitigatedCapecScore[0]))
+            risk = math.ceil(float(str(instance.mitigatedCapecScore[0]).split("*")[0]))
         else:
             risk = conv_table.get(instance.hasSourceCAPEC[0].severity[0], 4) * conv_table.get(instance.hasSourceCAPEC[0].likelihood[0], 4)
         qrisk = 'N/A'
@@ -1412,7 +1432,7 @@ def risk_assessment_detailed_report_from_bron(onto):
                 'Resource': name,
                 'Capec': capec.name,
                 'Risk': int(instance.capecScore[0]),
-                'Mitigated Risk': risk,
+                'Mitigated Risk': instance.mitigatedCapecScore[0],
                 'Risk Level': qrisk
             })
         else:
@@ -1432,7 +1452,7 @@ def risk_assessment_detailed_report_from_bron(onto):
 
     report = report.style.apply(highlight_row, axis=1)
 
-    new_row = pd.DataFrame({"Note": ["* = the mitigated risk could not reflect the actual risk(see documentation)"]})
+    new_row = pd.DataFrame({"Resource": ["* = the mitigated risk could not reflect the actual risk(see documentation)"]})
     combined_report = pd.concat([report.data, new_row], ignore_index=True)
 
     # Salva su Excel con stile applicato (esclusa la riga aggiuntiva)
